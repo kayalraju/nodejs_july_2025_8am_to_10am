@@ -1,9 +1,15 @@
 require('dotenv').config();
 const express = require('express');
+const ejs = require('ejs');
 
 const app = express();
 
 
+
+//setup ejs as the template engine
+
+app.set("view engine", "ejs");
+app.set('views','views')
 
 // Importing the home router
 const homeRouter = require('./app/router/homeRouter');
