@@ -11,6 +11,11 @@ const app = express();
 app.set("view engine", "ejs");
 app.set('views','views')
 
+
+//create static folder
+app.use(express.static('public'));
+
+
 // Importing the home router
 const homeRouter = require('./app/router/homeRouter');
 app.use(homeRouter);
