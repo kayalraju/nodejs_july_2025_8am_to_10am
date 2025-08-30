@@ -7,11 +7,25 @@ class ApiController{
     //create Student
     async createStudent(req,res){
         try{
+           // console.log('image',req.file);
+            
             //console.log(req.body);
             const {name,email,phone}=req.body
+
+            const is_matched=await Student.findOne({email})
+            if(is_matched){
+                return res.status(StatusCode.Server_Error).json({
+                    status:false,
+                    message:"Email already exists"
+                })
+            }
+
            const student= new Student({
                 name,email,phone
             })
+            if(req.file){
+                student.image=req.file.path
+            }
 
             const data=await student.save()
 
@@ -107,6 +121,40 @@ class ApiController{
             }) 
         }
     }
+
+
+
+    async searchStudent(req,res){
+        try{
+            let query={}
+            if(req.body.search){
+                const search= req.body.search
+                query={
+                     //name:{$regex:search,$options:'i'}
+                     $or:[
+                         {name:{$regex:search,$options:'i'}},
+                         {email:{$regex:search,$options:'i'}},
+                         {phone:{$regex:search,$options:'i'}}
+                     ]
+                }
+            }
+            const getStudent= await Student.find(query)
+            return res.status(StatusCode.OK).json({
+                status:true,
+                message:"Data fetched successfully",
+                total:getStudent.length,
+                data:getStudent
+            })
+
+        }catch(error){
+            return res.status(StatusCode.Server_Error).json({
+                error:error.message
+            })
+        }
+    }
+
+
+
 }
 
 module.exports=new ApiController()

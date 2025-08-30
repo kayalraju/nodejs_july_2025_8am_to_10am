@@ -3,6 +3,7 @@ const express = require('express');
 const ejs = require('ejs');
 const dbCon=require('./app/config/dbCon')
 const cors=require('cors')
+const path=require('path')
 
 const app = express();
 dbCon()
@@ -20,6 +21,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 //create static folder
 app.use(express.static('public'));
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
+app.use('/uploads',express.static('uploads'));
 
 
 // Importing the home router
