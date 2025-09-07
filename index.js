@@ -37,6 +37,9 @@ app.use('/api',ApiRoute)
 const EjsRoute=require('./app/router/EjsRouter')
 app.use(EjsRoute)
 
+const CsvRoute=require('./app/router/csvRouter')
+app.use(CsvRoute)
+
 const PORT=process.env.PORT || 3006
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
