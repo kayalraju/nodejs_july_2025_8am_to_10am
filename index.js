@@ -40,6 +40,9 @@ app.use(EjsRoute)
 const CsvRoute=require('./app/router/csvRouter')
 app.use(CsvRoute)
 
+const AuthRoute=require('./app/router/authRouter')
+app.use('/auth',AuthRoute)
+
 const PORT=process.env.PORT || 3006
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
